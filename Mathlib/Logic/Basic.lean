@@ -13,6 +13,7 @@ public import Batteries.Tactic.Trans
 public import Batteries.Util.LibraryNote
 public import Mathlib.Data.Nat.Notation
 public import Mathlib.Data.Int.Notation
+import Aesop
 
 /-!
 # Basic logic properties
@@ -422,6 +423,7 @@ theorem congr_fun_congr_arg {α β γ : Sort*} (f : α → β → γ) {a a' : α
 
 @[deprecated (since := "2025-09-16")] alias eqRec_heq' := eqRec_heq_self
 
+@[aesop 80%]
 theorem rec_heq_of_heq {α β : Sort _} {a b : α} {C : α → Sort*} {x : C a} {y : β}
     (e : a = b) (h : x ≍ y) : e ▸ x ≍ y :=
   eqRec_heq_iff_heq.mpr h
