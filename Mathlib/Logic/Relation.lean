@@ -300,7 +300,7 @@ inductive ReflGen (r : α → α → Prop) (a : α) : α → Prop
   | refl : ReflGen r a a
   | single {b} : r a b → ReflGen r a b
 
--- attribute [grind =] reflGen_iff
+attribute [grind =] reflGen_iff
 
 private theorem reflTransGen_eq_of_TransGen {x y : α} (h : TransGen r x y) :
     ReflTransGen r x y := by
