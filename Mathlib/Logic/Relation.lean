@@ -300,7 +300,43 @@ inductive ReflGen (r : α → α → Prop) (a : α) : α → Prop
   | refl : ReflGen r a a
   | single {b} : r a b → ReflGen r a b
 
-attribute [grind =] reflGen_iff
+-- attribute [grind =] reflGen_iff
+
+private theorem reflTransGen_eq_of_TransGen {x y : α} (h : TransGen r x y) :
+    ReflTransGen r x y := by
+  induction h
+  · case _ b ih =>
+    apply ReflTransGen.tail
+    · constructor
+    · exact ih
+  · case _ b c a a' iha =>
+    constructor
+    · exact iha
+    · exact a'
+
+@[grind =]
+private theorem reflGen_transGen : ReflTransGen r = ReflGen (TransGen r) := by
+  ext x y
+  constructor
+  · intros hc
+    induction hc
+    · constructor
+    · case _ b c a a' aih =>
+      cases aih
+      · constructor
+        constructor
+        exact a'
+      · case _ aih' =>
+        constructor
+        apply TransGen.trans
+        · exact aih'
+        · constructor
+          exact a'
+  · intros hc
+    induction hc
+    · constructor
+    · case _ y hy =>
+      apply reflTransGen_eq_of_TransGen hy
 
 variable (r) in
 /-- `EqvGen r`: equivalence closure of `r`. -/
@@ -619,9 +655,6 @@ theorem ReflTransGen.swap (h : ReflTransGen r b a) : ReflTransGen (swap r) a b :
 theorem reflTransGen_swap : ReflTransGen (swap r) a b ↔ ReflTransGen r b a :=
   ⟨ReflTransGen.swap, ReflTransGen.swap⟩
 
-@[simp] lemma reflGen_transGen : ReflGen (TransGen r) = ReflTransGen r := by
-  ext x y
-  simp_rw [reflTransGen_iff_eq_or_transGen, reflGen_iff]
 
 @[simp] lemma transGen_reflGen : TransGen (ReflGen r) = ReflTransGen r := by
   ext x y
@@ -636,7 +669,8 @@ theorem reflTransGen_swap : ReflTransGen (swap r) a b ↔ ReflTransGen r b a :=
   simp only [← transGen_reflGen, reflGen_eq_self reflexive_reflGen]
 
 @[simp] lemma reflTransGen_transGen : ReflTransGen (TransGen r) = ReflTransGen r := by
-  simp only [← reflGen_transGen, transGen_idem]
+  -- grind fails here, despite the lemmas above
+  simp [reflGen_transGen, transGen_idem]
 
 lemma reflTransGen_eq_transGen (hr : Reflexive r) :
     ReflTransGen r = TransGen r := by
@@ -644,7 +678,8 @@ lemma reflTransGen_eq_transGen (hr : Reflexive r) :
 
 lemma reflTransGen_eq_reflGen (hr : Transitive r) :
     ReflTransGen r = ReflGen r := by
-  rw [← reflGen_transGen, transGen_eq_self hr]
+  -- grind fails
+  rw [reflGen_transGen, transGen_eq_self hr]
 
 end ReflTransGen
 

@@ -326,6 +326,8 @@ theorem wcovBy_iff_covBy_or_eq : a ⩿ b ↔ a ⋖ b ∨ a = b := by
 theorem wcovBy_iff_eq_or_covBy : a ⩿ b ↔ a = b ∨ a ⋖ b :=
   wcovBy_iff_covBy_or_eq.trans or_comm
 
+attribute [grind =] wcovBy_iff_eq_or_covBy
+
 alias ⟨WCovBy.covBy_or_eq, _⟩ := wcovBy_iff_covBy_or_eq
 
 alias ⟨WCovBy.eq_or_covBy, _⟩ := wcovBy_iff_eq_or_covBy
@@ -470,7 +472,7 @@ section Relation
 open Relation
 
 lemma wcovBy_eq_reflGen_covBy [PartialOrder α] : (· ⩿ · : α → α → Prop) = ReflGen (· ⋖ ·) := by
-  grind [wcovBy_iff_eq_or_covBy]
+  grind
 
 lemma transGen_wcovBy_eq_reflTransGen_covBy [PartialOrder α] :
     TransGen (· ⩿ · : α → α → Prop) = ReflTransGen (· ⋖ ·) := by
