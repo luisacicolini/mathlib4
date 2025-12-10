@@ -470,7 +470,7 @@ section Relation
 open Relation
 
 lemma wcovBy_eq_reflGen_covBy [PartialOrder α] : (· ⩿ · : α → α → Prop) = ReflGen (· ⋖ ·) := by
-  ext x y; simp_rw [wcovBy_iff_eq_or_covBy, @eq_comm _ x, reflGen_iff]
+  grind [wcovBy_iff_eq_or_covBy]
 
 lemma transGen_wcovBy_eq_reflTransGen_covBy [PartialOrder α] :
     TransGen (· ⩿ · : α → α → Prop) = ReflTransGen (· ⋖ ·) := by

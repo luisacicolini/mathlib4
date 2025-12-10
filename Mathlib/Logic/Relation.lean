@@ -300,6 +300,8 @@ inductive ReflGen (r : α → α → Prop) (a : α) : α → Prop
   | refl : ReflGen r a a
   | single {b} : r a b → ReflGen r a b
 
+attribute [grind =] reflGen_iff
+
 variable (r) in
 /-- `EqvGen r`: equivalence closure of `r`. -/
 @[mk_iff]
