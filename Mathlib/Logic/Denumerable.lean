@@ -228,9 +228,6 @@ theorem lt_succ_iff_le {x y : s} : x < succ y ↔ x ≤ y :=
   ⟨fun h => le_of_not_gt fun h' => not_le_of_gt h (succ_le_of_lt h'), fun h =>
     lt_of_le_of_lt h (lt_succ_self _)⟩
 
-example {x y : s} (h : x < succ y) : x ≤ y := by grind
-example {x y : s} (h : x ≤ y) : x < y.succ := by grind
-
 /-- Returns the `n`-th element of a set, according to the usual ordering of `ℕ`. -/
 def ofNat (s : Set ℕ) [DecidablePred (· ∈ s)] [Infinite s] : ℕ → s
   | 0 => ⊥
