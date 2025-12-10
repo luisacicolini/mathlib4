@@ -223,10 +223,11 @@ theorem lt_succ_self (x : s) : x < succ x :=
     (x : ℕ) ≤ (x + _) := le_add_right ..
     _ < (succ x) := Nat.lt_succ_self (x + _)
 
-@[grind =]
 theorem lt_succ_iff_le {x y : s} : x < succ y ↔ x ≤ y :=
   ⟨fun h => le_of_not_gt fun h' => not_le_of_gt h (succ_le_of_lt h'), fun h =>
     lt_of_le_of_lt h (lt_succ_self _)⟩
+
+grind_pattern lt_succ_iff_le => x ≤ y
 
 /-- Returns the `n`-th element of a set, according to the usual ordering of `ℕ`. -/
 def ofNat (s : Set ℕ) [DecidablePred (· ∈ s)] [Infinite s] : ℕ → s
