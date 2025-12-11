@@ -671,6 +671,11 @@ theorem ReflTransGen.swap (h : ReflTransGen r b a) : ReflTransGen (swap r) a b :
 theorem reflTransGen_swap : ReflTransGen (swap r) a b ↔ ReflTransGen r b a :=
   ⟨ReflTransGen.swap, ReflTransGen.swap⟩
 
+-- moved the theorem above and added to grind
+-- @[simp] lemma reflGen_transGen : ReflGen (TransGen r) = ReflTransGen r := by
+--   ext x y
+--   simp_rw [reflTransGen_iff_eq_or_transGen, reflGen_iff]
+
 @[simp] lemma transGen_reflGen : TransGen (ReflGen r) = ReflTransGen r := by
   ext x y
   refine ⟨fun h ↦ ?_, fun h ↦ ?_⟩
