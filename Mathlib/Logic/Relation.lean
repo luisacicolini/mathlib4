@@ -302,6 +302,7 @@ inductive ReflGen (r : α → α → Prop) (a : α) : α → Prop
 
 attribute [grind =] reflGen_iff
 
+@[grind .]
 private theorem reflTransGen_eq_of_TransGen {x y : α} (h : TransGen r x y) :
     ReflTransGen r x y := by
   induction h
@@ -351,6 +352,29 @@ theorem transisive_of_transGen : Transitive (TransGen r) := by
   unfold Transitive
   intros x y z hxy hyz
   exact TransGen.trans hxy hyz
+
+lemma reflGen_eq_self (hr : Reflexive r) : ReflGen r = r := by
+  ext x y
+  simpa only [reflGen_iff, or_iff_right_iff_imp] using fun h ↦ h ▸ hr y
+
+@[grind .]
+theorem ReflGen_TransGen_eq_TransGen_ReflGen :
+    TransGen (ReflGen r) = ReflGen (TransGen r) := by
+  ext x y
+  constructor
+  · intros hc
+    constructor
+    rw [reflGen_eq_self] at hc
+    · exact hc
+    · unfold Reflexive
+      intros x
+      induction hc
+      · case _ a b h =>
+        sorry
+      · case _ ih =>
+        exact ih
+  · intros hc
+    sorry
 
 variable (r) in
 /-- `EqvGen r`: equivalence closure of `r`. -/
@@ -519,10 +543,6 @@ end TransGen
 
 
 section reflGen
-
-lemma reflGen_eq_self (hr : Reflexive r) : ReflGen r = r := by
-  ext x y
-  simpa only [reflGen_iff, or_iff_right_iff_imp] using fun h ↦ h ▸ hr y
 
 lemma reflexive_reflGen : Reflexive (ReflGen r) := fun _ ↦ .refl
 
