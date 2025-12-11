@@ -346,20 +346,6 @@ theorem transGen_eq_self (trans : Transitive r) : TransGen r = r :=
       | single hc => exact hc
       | tail _ hcd hac => exact trans hac hcd, TransGen.single⟩
 
-@[grind =]
-theorem reflGen_eq_self' (h : Reflexive r) :
-    ReflGen r = r := by
-  ext x' y'
-  constructor
-  · intros hc
-    induction hc
-    · apply h
-    · case _ b ihb =>
-      exact ihb
-  · intros hc
-    constructor
-    exact hc
-
 @[grind .]
 theorem transisive_of_transGen : Transitive (TransGen r) := by
   unfold Transitive
@@ -534,7 +520,6 @@ end TransGen
 
 section reflGen
 
---- moved a copy of this theorem above, added to grind
 lemma reflGen_eq_self (hr : Reflexive r) : ReflGen r = r := by
   ext x y
   simpa only [reflGen_iff, or_iff_right_iff_imp] using fun h ↦ h ▸ hr y
