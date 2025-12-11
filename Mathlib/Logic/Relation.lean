@@ -353,6 +353,8 @@ theorem reflGen_eq_self' (h : Reflexive r) :
     constructor
     exact hc
 
+variable (r) in
+
 /-- `EqvGen r`: equivalence closure of `r`. -/
 @[mk_iff]
 inductive EqvGen : α → α → Prop
