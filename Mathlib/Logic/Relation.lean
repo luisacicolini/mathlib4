@@ -521,7 +521,7 @@ end TransGen
 
 section reflGen
 
---- moved above, added to grind
+--- moved a copy of this theorem above, added to grind
 lemma reflGen_eq_self (hr : Reflexive r) : ReflGen r = r := by
   ext x y
   simpa only [reflGen_iff, or_iff_right_iff_imp] using fun h ↦ h ▸ hr y
