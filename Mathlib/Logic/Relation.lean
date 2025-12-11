@@ -314,6 +314,7 @@ private theorem reflTransGen_eq_of_TransGen {x y : α} (h : TransGen r x y) :
     · exact iha
     · exact a'
 
+/-- We want to reason about `ReflTransGen` in terms of `ReflGen` and `TransGen` -/
 @[grind =]
 private theorem reflGen_transGen : ReflTransGen r = ReflGen (TransGen r) := by
   ext x y
@@ -338,7 +339,20 @@ private theorem reflGen_transGen : ReflTransGen r = ReflGen (TransGen r) := by
     · case _ y hy =>
       apply reflTransGen_eq_of_TransGen hy
 
-variable (r) in
+@[grind =]
+theorem reflGen_eq_self' (h : Reflexive r) :
+    ReflGen r = r := by
+  ext x' y'
+  constructor
+  · intros hc
+    induction hc
+    · apply h
+    · case _ b ihb =>
+      exact ihb
+  · intros hc
+    constructor
+    exact hc
+
 /-- `EqvGen r`: equivalence closure of `r`. -/
 @[mk_iff]
 inductive EqvGen : α → α → Prop
@@ -506,6 +520,7 @@ end TransGen
 
 section reflGen
 
+--- moved above, added to grind
 lemma reflGen_eq_self (hr : Reflexive r) : ReflGen r = r := by
   ext x y
   simpa only [reflGen_iff, or_iff_right_iff_imp] using fun h ↦ h ▸ hr y
@@ -655,7 +670,6 @@ theorem ReflTransGen.swap (h : ReflTransGen r b a) : ReflTransGen (swap r) a b :
 theorem reflTransGen_swap : ReflTransGen (swap r) a b ↔ ReflTransGen r b a :=
   ⟨ReflTransGen.swap, ReflTransGen.swap⟩
 
-
 @[simp] lemma transGen_reflGen : TransGen (ReflGen r) = ReflTransGen r := by
   ext x y
   refine ⟨fun h ↦ ?_, fun h ↦ ?_⟩
@@ -670,6 +684,8 @@ theorem reflTransGen_swap : ReflTransGen (swap r) a b ↔ ReflTransGen r b a :=
 
 @[simp] lemma reflTransGen_transGen : ReflTransGen (TransGen r) = ReflTransGen r := by
   -- grind fails here, despite the lemmas above
+  -- the equivalence classes in this call to grind are very confusing:
+  -- grind [reflGen_eq_self]
   simp [reflGen_transGen, transGen_idem]
 
 lemma reflTransGen_eq_transGen (hr : Reflexive r) :
